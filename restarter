@@ -1,0 +1,4 @@
+gem uninstall r2r
+gem build r2r.gemspec
+gem install ./r2r-0.0.1.gem
+irb

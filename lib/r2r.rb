@@ -1,0 +1,7 @@
+require 'json'
+require 'curb'
+require 'main'
+require 'autocomplete/autocomplete'
+require 'autocomplete/place'
+require 'geocode/geocode'
+require 'geocode/place'
