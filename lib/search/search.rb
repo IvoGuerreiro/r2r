@@ -20,14 +20,35 @@ module R2R::Search
 
 
 	def self.perform(origin,destination,exclusions = [], params = {})
+
+	  raise 'Invalid Origin' if origin.nil? || (origin[:name].nil? && origin[:position].nil?) || \
+	  (origin[:name].nil? && origin[:position][:lat].nil? && origin[:position][:lng].nil?)
+      raise 'Destination Origin' if destination.nil? || (destination[:name].nil? && destination[:position].nil?) || \
+	  (destination[:name].nil? && destination[:position][:lat].nil? && destination[:position][:lng].nil?)
+
+      query_url = R2R.base_url + "/Search?key=#{CGI::escape(R2R.key)}"
+
+      #Origin
+	  query_url += "&oName=#{CGI::escape(origin[:name])}" unless origin[:name].nil?
+      query_url += "&oPos=#{CGI::escape(origin[:position][:lat] + ',' + origin[:position][:lng])}" unless origin[:position].nil?
+      query_url += "&oKind=#{CGI::escape(origin[:kind])}" unless origin[:kind].nil?
       
-      query_url = R2R.base_url + "/Geocode?key=#{CGI::escape(R2R.key)}&query=#{CGI::escape(query)}"
+
+      #Destination
+      query_url += "&dName=#{CGI::escape(destination[:name])}" unless destination[:name].nil?
+      query_url += "&dPos=#{CGI::escape(destination[:position][:lat] + ',' + destination[:position][:lng])}" unless destination[:position].nil?
+      query_url += "&dKind=#{CGI::escape(destination[:kind])}" unless destination[:kind].nil?
+
+
       query_url += "&countryCode=#{CGI::escape(params[:country_code])}" unless params[:country_code].nil?	
       query_url += "&languageCode=#{CGI::escape(params[:language_code])}" unless params[:language_code].nil?   
       query_url += "&data=#{CGI::escape(params[:data])}" unless params[:data].nil?	
-      query_url += "&flags=#{CGI::escape(ecxlusions.collect{|e| EXCLUSIONS[e]}.compact.inject(0, :+)}" if exclusions.any?
+      query_url += "&flags=#{CGI::escape(ecxlusions.collect{|e| EXCLUSIONS[e]}.compact.inject(0, :+))}" if exclusions.any?
+
+      puts query_url
 
       http = Curl.get(query_url)
+      http.body_str
 	  json_obj = JSON.parse(http.body_str)
 	  #json_obj['places'].collect{|p| Place.new(p)}	
 	end	

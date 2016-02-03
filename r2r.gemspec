@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Ivo Guerreiro"]
   s.email       = 'ivoguerreiro@ist.utl.pt'
   s.files       = ["lib/r2r.rb","lib/main.rb","lib/autocomplete/autocomplete.rb","lib/autocomplete/place.rb"\
-    ,"lib/geocode/geocode.rb","lib/geocode/place.rb"]
+    ,"lib/geocode/geocode.rb","lib/geocode/place.rb","lib/search/search.rb"]
   s.homepage    =
     'http://rubygems.org/gems/r2r'
   s.license       = 'MIT'
