@@ -21,6 +21,10 @@ module R2R::Search
 
 	def self.perform(origin,destination,exclusions = [], params = {})
 
+	  raise 'Please Initialize Rome 2 Rio Connectrion' unless R2R.is_initialized?	
+
+	  
+
 	  raise 'Invalid Origin' if origin.nil? || (origin[:name].nil? && origin[:position].nil?) || \
 	  (origin[:name].nil? && origin[:position][:lat].nil? && origin[:position][:lng].nil?)
       raise 'Destination Origin' if destination.nil? || (destination[:name].nil? && destination[:position].nil?) || \
@@ -45,11 +49,8 @@ module R2R::Search
       query_url += "&data=#{CGI::escape(params[:data])}" unless params[:data].nil?	
       query_url += "&flags=#{CGI::escape(ecxlusions.collect{|e| EXCLUSIONS[e]}.compact.inject(0, :+))}" if exclusions.any?
 
-      puts query_url
-
       http = Curl.get(query_url)
-      http.body_str
 	  json_obj = JSON.parse(http.body_str)
-	  #json_obj['places'].collect{|p| Place.new(p)}	
+	  json_obj
 	end	
 end

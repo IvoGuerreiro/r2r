@@ -8,6 +8,6 @@ module R2R::Geocode
 
       http = Curl.get(query_url)
 	  json_obj = JSON.parse(http.body_str)
-	  json_obj['places'].collect{|p| Place.new(p)}	
+	  json_obj
 	end	
 end

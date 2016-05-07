@@ -1,10 +1,12 @@
 module R2R
 	@server ||= 'free.rome2rio.com'
 	@key ||= ''
+	@initialized = false
 
 	def self.init(params = {})
 		@server = params.fetch(:server)
 		@key = params.fetch(:key)
+		@initialized = true
 		self
 	end	
 
@@ -14,5 +16,9 @@ module R2R
 
 	def self.key
 		@key
+	end	
+
+	def self.is_initialized?
+		@initialized
 	end	
 end
